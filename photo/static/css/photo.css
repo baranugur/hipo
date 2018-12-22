@@ -1,0 +1,16 @@
+h1 {
+    text-align: center;
+    margin-block-start: 20px;
+}
+
+.input-group {
+    margin-block-start: 30px;
+}
+
+.card {
+    float: left;
+}
+
+#previous-searches {
+    text-align: center;
+}

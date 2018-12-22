@@ -1,0 +1,10 @@
+*.pyc
+
+.vscode
+__pycache__
+
+.project
+.idea
+.code
+
+hipoenv/

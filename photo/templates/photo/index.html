@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>The Ultimate Flickr Client</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/photo.css' %}">
+</head>
+<body>
+    <h1>The Ultimate Flickr Client</h1>
+
+    <form>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <div class="input-group mb-3">
+                        <input type="text" name="tag" class="form-control" placeholder="Tags...">
+                        <div class="input-group-append">
+                            <button id="searchButton" class="btn btn-outline-secondary" type="button">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    {% if images %}
+        <h3>Results</h3>
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div id="gallery" class="col-9">
+                {% for image in images %}
+                    <div class="card col-4">
+                        <img src="{{ image.url }}" class="card-img-top mt-3">
+                        <div class="card-body">
+                            <p class="card-text">{{ image.title }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <div id="previous-searches" class="col-3">
+                <h4>Previous Searches</h4>
+            </div>
+        </div>
+    </div>
+
+    {% if images.has_other_pages %}
+        {% if images.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in images.paginator.page_range %}
+            {% if images.number == num %}
+                <a class="btn btn-info mb-4" href="?tag={{ tag }}&page={{ num }}">{{ num }}</a>
+            {% elif num > images.number|add:'-3' and num < images.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if images.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'javascript/photo.js' %}"></script>
+</body>
+</html>

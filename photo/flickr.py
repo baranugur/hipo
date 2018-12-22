@@ -1,0 +1,47 @@
+import requests
+import json
+from .image import Image
+
+API_KEY = "1ddb7df62cbdc4e07f6ec75ca78e2960"
+# https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1ddb7df62cbdc4e07f6ec75ca78e2960&tags=car&format=json&nojsoncallback=1
+
+class Flickr:
+    def __init__(self, tag):        
+        self.url_base = "https://api.flickr.com/services/rest/"
+        self.url_api = self.url_base
+        self.api_key = API_KEY
+        self.format = "json"
+        self.nojsoncallback = "1"
+        self.tag = tag
+
+    def search(self, params):
+        new_params = {
+            "method": "flickr.photos.search", 
+            "api_key": self.api_key,
+            "tags": self.tag,
+            "format": self.format,
+            "nojsoncallback": self.nojsoncallback,
+        }
+        params.update(new_params)
+        return requests.get(self.url_api, params=params)
+
+
+    def get_images(self, response):
+        json_data = json.loads(response.text)
+        photos_dictionary = json_data.get("photos")
+        images = []
+        if photos_dictionary:
+            photos = photos_dictionary.get("photo")
+            for photo in photos:
+                image_url = self.build_image_url_string(photo)
+                image_title = photo.get("title")
+                image = Image(image_title, image_url)
+                images.append(image)
+        return images
+
+    def build_image_url_string(self, photo):
+        # https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+        image_url = ("https://farm" + str(photo["farm"]) + ".staticflickr.com/" +
+                        str(photo["server"]) + "/" + str(photo["id"]) + "_" +
+                        str(photo["secret"]) + ".jpg")
+        return image_url
