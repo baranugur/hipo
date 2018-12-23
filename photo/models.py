@@ -11,8 +11,7 @@ class PreviousSearch(models.Model):
     def __str__(self):
         return self.keyword
 
-    def insert(self, searched_by, keyword, searched_date):
+    def initialize(self, searched_by, keyword, searched_date):
         self.searched_by = searched_by
         self.keyword = keyword
         self.searched_date = searched_date
-        self.save()
