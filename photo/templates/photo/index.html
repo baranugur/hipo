@@ -20,7 +20,6 @@
                         <input type="text" name="tag" class="form-control" placeholder="Tags...">
                         <div class="input-group-append">
                             <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
-                            <!-- <input type="text"> -->
                         </div>
                     </div>
                 </div>
@@ -50,7 +49,9 @@
                 {% endif %}
                 <ul>
                     {% for search in previous_searches %}
-                        <li>{{ search.keyword }}</li>
+                        <li>
+                            <a href="?tag={{ search.keyword }}">{{ search.keyword }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
