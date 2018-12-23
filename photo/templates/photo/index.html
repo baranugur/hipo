@@ -44,28 +44,35 @@
                 
             </div>
             <div id="previous-searches" class="col-3">
-                <h4>Previous Searches</h4>
+                {% if previous_searches %}
+                    <h4>Previous Searches</h4>
+                {% endif %}
+                <ul>
+                    {% for search in previous_searches %}
+                        <li>{{ search.keyword }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
 
     {% if images.has_other_pages %}
         {% if images.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.previous_page_number }}">Previous</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ previous_searches.0 }}&page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ previous_searches.0 }}&page={{ images.previous_page_number }}">Previous</a>
         {% endif %}
 
         {% for num in images.paginator.page_range %}
             {% if images.number == num %}
-                <a class="btn btn-info mb-4" href="?tag={{ tag }}&page={{ num }}">{{ num }}</a>
+                <a class="btn btn-info mb-4" href="?tag={{ previous_searches.0 }}&page={{ num }}">{{ num }}</a>
             {% elif num > images.number|add:'-3' and num < images.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ num }}">{{ num }}</a>
+                <a class="btn btn-outline-info mb-4" href="?tag={{ previous_searches.0 }}&page={{ num }}">{{ num }}</a>
             {% endif %}
         {% endfor %}
 
         {% if images.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?tag={{ tag }}&page={{ images.paginator.num_pages }}">Last</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ previous_searches.0 }}&page={{ images.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?tag={{ previous_searches.0 }}&page={{ images.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
 
