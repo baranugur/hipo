@@ -14,7 +14,7 @@ def index(request):
     image_list = flickr.get_images(response)
 
     if tag and not page:
-        tag = tag.lower()
+        tag = tag.strip().lower()
         existing_searches = PreviousSearch.objects.filter(keyword=tag)
         if existing_searches:
             existing_search = existing_searches[0]
