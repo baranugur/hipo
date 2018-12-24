@@ -21,7 +21,7 @@ def index(request):
             existing_search.save()
         else:
             search = PreviousSearch()
-            search.initialize(request.user, tag, timezone.now())
+            search.initialize(tag, timezone.now())
             search.save()
     
     images = flickr.paginate_images(page, image_list)
