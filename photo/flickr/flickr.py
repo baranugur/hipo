@@ -51,5 +51,5 @@ class Flickr:
         # https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
         image_url = ("https://farm" + str(photo["farm"]) + ".staticflickr.com/" +
                         str(photo["server"]) + "/" + str(photo["id"]) + "_" +
-                        str(photo["secret"]) + ".jpg")
+                        str(photo["secret"]) + "_b" +".jpg")
         return image_url
