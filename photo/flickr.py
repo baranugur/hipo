@@ -3,26 +3,23 @@ import json
 from .image import Image
 
 API_KEY = "1ddb7df62cbdc4e07f6ec75ca78e2960"
-# https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1ddb7df62cbdc4e07f6ec75ca78e2960&tags=car&format=json&nojsoncallback=1
 
 class Flickr:
-    def __init__(self, tag):        
+    def __init__(self):        
         self.url_base = "https://api.flickr.com/services/rest/"
         self.url_api = self.url_base
         self.api_key = API_KEY
         self.format = "json"
         self.nojsoncallback = "1"
-        self.tag = tag
 
     def search(self, params):
-        new_params = {
+        missing_params = {
             "method": "flickr.photos.search", 
             "api_key": self.api_key,
-            "tags": self.tag,
             "format": self.format,
             "nojsoncallback": self.nojsoncallback,
         }
-        params.update(new_params)
+        params.update(missing_params)
         return requests.get(self.url_api, params=params)
 
 
