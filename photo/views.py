@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.utils import timezone
-from .flickr import Flickr
+from .flickr.flickr import Flickr
 from .models import PreviousSearch
 
 
