@@ -37,7 +37,9 @@
                 <div class="card-deck">
                     {% for image in images %}
                         <div class="card col-3 m-3">
-                            <img src="{{ image.url }}" class="card-img-top mt-3">
+                            <a href="{{ image.url }}">
+                                <img src="{{ image.url }}" class="card-img-top mt-3">
+                            </a>
                             <div class="card-body">
                                 <p class="card-text">{{ image.title }}</p>
                             </div>
