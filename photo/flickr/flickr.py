@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import json
 from .image import Image
@@ -34,6 +35,16 @@ class Flickr:
                 image_title = photo.get("title")
                 image = Image(image_title, image_url)
                 images.append(image)
+        return images
+    
+    def paginate_images(self, page, images):
+        paginator = Paginator(images, 16)
+        try:
+            images = paginator.page(page)
+        except PageNotAnInteger:
+            images = paginator.page(1)
+        except EmptyPage:
+            images = paginator.page(paginator.num_pages)
         return images
 
     def build_image_url_string(self, photo):
