@@ -13,7 +13,7 @@ def index(request):
     params = {}
     response = flickr.search(params)
     image_list = flickr.get_images(response)
-    paginator = Paginator(image_list, 6)
+    paginator = Paginator(image_list, 16)
 
     if tag and not page:
         existing_search = PreviousSearch.objects.filter(keyword=tag)
