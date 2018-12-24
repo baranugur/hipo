@@ -25,7 +25,7 @@ SECRET_KEY = '!ogj6y$_n=w4w42!bi_bc(_85=3hixqq2-tcd_*7$7vi%pbkre'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['flickr-baranugur.herokuapp.com']
 
 
 # Application definition
