@@ -5,8 +5,9 @@ from .image import Image
 
 API_KEY = "1ddb7df62cbdc4e07f6ec75ca78e2960"
 
+
 class Flickr:
-    def __init__(self):        
+    def __init__(self):
         self.url_base = "https://api.flickr.com/services/rest/"
         self.url_api = self.url_base
         self.api_key = API_KEY
@@ -15,14 +16,13 @@ class Flickr:
 
     def search(self, params):
         missing_params = {
-            "method": "flickr.photos.search", 
+            "method": "flickr.photos.search",
             "api_key": self.api_key,
             "format": self.format,
             "nojsoncallback": self.nojsoncallback,
         }
         params.update(missing_params)
         return requests.get(self.url_api, params=params)
-
 
     def get_images(self, response):
         json_data = json.loads(response.text)
@@ -36,7 +36,14 @@ class Flickr:
                 image = Image(image_title, image_url)
                 images.append(image)
         return images
-    
+
+    def build_image_url_string(self, photo):
+        # https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_b.jpg
+        image_url = ("https://farm" + str(photo["farm"]) + ".staticflickr.com/" +
+                     str(photo["server"]) + "/" + str(photo["id"]) + "_" +
+                     str(photo["secret"]) + "_b" + ".jpg")
+        return image_url
+
     def paginate_images(self, page, images):
         paginator = Paginator(images, 16)
         try:
@@ -46,10 +53,3 @@ class Flickr:
         except EmptyPage:
             images = paginator.page(paginator.num_pages)
         return images
-
-    def build_image_url_string(self, photo):
-        # https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-        image_url = ("https://farm" + str(photo["farm"]) + ".staticflickr.com/" +
-                        str(photo["server"]) + "/" + str(photo["id"]) + "_" +
-                        str(photo["secret"]) + "_b" +".jpg")
-        return image_url
